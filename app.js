@@ -5,9 +5,15 @@ const app = express();
 
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const { clearAllCookies, timerUI, subRequestContent } = require("./utils");
+const {
+  clearAllCookies,
+  timerUI,
+  subRequestContent,
+  formUI,
+} = require("./utils");
 
 app.use(cors());
+app.use(express.urlencoded());
 app.use(cookieParser());
 
 const colorRed = "\x1b[31m"; // Red
@@ -23,7 +29,12 @@ app.use((req, res, next) => {
   res.locals.fromMain = !res.locals.reqIsThirdParty;
   coloredLog(res.locals.reqIsThirdParty ? colorRed : colorYellow, "=========");
   console.log("Received cookies", req.cookies);
-  console.log("request details", { url: req.url, host: req.headers.host });
+  console.log("Received body", req.query);
+  console.log("request details", {
+    url: req.url,
+    host: req.headers.host,
+    referrer: req.headers.referer,
+  });
   next();
 });
 // Set up routes here
@@ -36,27 +47,28 @@ app.use("/images", (req, res, next) => {
   //   maxAge: 1e3 * 3600,
   //   path: "/images",
   // });
+  // res.cookie("image-cross", "valp", {
+  //   maxAge: 1e3 * 3600,
+  // });
   req.url = req.originalUrl;
   return express.static(path.join(__dirname, "public"))(req, res, next);
 });
 
 // add a GET / route that renders some HTML
 app.get("/", (req, res, next) => {
-  res.cookie("bankPassword", "valp", {
-    maxAge: 1e3 * 3600,
-    sameSite: "none",
-  });
-  // clearAllCookies(req, res, { domain: "wdiff.com" });
+  // clearAllCookies(req, res);
   if (res.locals.fromMain) {
-    console.log("Set");
+    // console.log("Set");
     // res.cookie("x", "val", {
     //   maxAge: 1e3 * 3600,
     // });
   } else {
-    // clearAllCookies(req, res, { domain: ".wdiff.com" });
+    // res.cookie("bankPassword3", "valp", {
+    //   maxAge: 1e3 * 3600,
+    // });
+    // clearAllCookies(req, res);
     // res.cookie("y", "val", {
     //   maxAge: 1e3 * 3600,
-    //   // domain: ".wdiff.com",
     // });
     console.log("Not set");
   }
@@ -69,6 +81,7 @@ app.get("/", (req, res, next) => {
           <title></title>
           <style>
             code { background-color: lightgray; padding: 4px; }
+            input { margin: 4px; }
           </style>
         </head>
           <body>
@@ -95,18 +108,19 @@ app.get("/", (req, res, next) => {
                 document.querySelector("#post-cookies").innerHTML = document.cookie || "nothing";
               `,
             })}
-            ${subRequestContent({
-              callThirdParty: !res.locals.reqIsThirdParty,
-              src: `http://${
-                // true ? "cross" : "cross"
-                true ? "www.wdiff" : "www.wdiff"
-              }.com/images/sample-product-orig.jpg`,
-            })}
-            <a href="http://${
-              // true ? "cross" : "cross"
-              true ? "www.wdiff" : "www.wdiff"
-            }.com">3rd (good) site</a>
 
+            ${formUI({
+              method: "GET",
+              src: `http://${
+                true ? "cross" : "cross"
+                // true ? "www.wdiff" : "www.wdiff"
+              }.com`,
+            })}
+
+            <a  href="http://${
+              true ? "cross" : "cross"
+              // true ? "www.wdiff" : "www.wdiff"
+            }.com?amount=3000&account=123id">3rd (good) site</a>
             <br />
           </body>
         </html>`);

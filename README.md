@@ -28,3 +28,5 @@
 
 - IETF proposed making `sameSite=lax`` if not specified. See [RFC](https://datatracker.ietf.org/doc/html/draft-west-cookie-incrementalism-00)
 - IETF proposed another thing. If sites say `sameSite=None``, then _need_ **\***have**\*** to make the cookie “secure” (HTTPS compat).
+
+http://cross.com/?account=123&amount=123, CSRF don't click ;)

@@ -59,3 +59,13 @@ module.exports.subRequestContent = ({ src = "", callThirdParty = false }) => {
       </div>
     `;
 };
+
+module.exports.formUI = ({ method = "GET", src = "" }) => {
+  return `
+      <form action=${src} method=${method}>
+        <input name="account" placeholder="Account" /> <br/>
+        <input name="amount" placeholder="Amount to transfer" /> <br/>
+        <input type="submit" />
+      </form>
+    `;
+};
