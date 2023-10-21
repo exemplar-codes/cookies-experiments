@@ -1,4 +1,5 @@
 ## instructions: append to /etc/hosts
+## and run `sudo dscacheutil -flushcache` (mac, linux) to
 
 ## why: want to test cookies domain, samesite config
 ## main site will be `http://wdiff.com` and 3rd party site will be `http//www.wdiff.com`
