@@ -1,0 +1,7 @@
+## instructions: append to /etc/hosts
+
+## why: want to test cookies domain, samesite config
+## main site will be `http://wdiff.com` and 3rd party site will be `http//www.wdiff.com`
+
+127.0.0.1 wdiff.com
+127.0.0.1 www.wdiff.com
