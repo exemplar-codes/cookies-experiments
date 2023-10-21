@@ -1,6 +1,13 @@
 # Experiments with cookies
 
-[Live table at Notion](https://www.notion.so/Experiments-with-cookies-9bfd4f4d46494084b14af6fb36cc072a?pvs=4)
+- [Live table at Notion](https://www.notion.so/Experiments-with-cookies-9bfd4f4d46494084b14af6fb36cc072a?pvs=4)
+- [Notes page](https://github.com/sanjar-notes/nodejs/blob/1c6eb89feaff0e3bcd92395573b2dbcf9fbb0b95/home/4_resource_itineraries/2_Node_js_complete_guide_academind/14_Sessions_and_Cookies/235_Cookie_experiments.md)
+
+## Screenshot
+
+<img src="Pasted_image_20231022011359.png" height="600px" alt="screeshot-debug" />
+
+## Experiments
 
 | Name lesson                                                                                                                                                      | Goal                  | Result                                                                                                                                                  | Config          | 3rd party ? | subReq ? | Tags |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | ----------- | -------- | ---- |
