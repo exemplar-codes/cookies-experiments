@@ -5,7 +5,7 @@
 
 ## Screenshot
 
-<img src="Pasted_image_20231022011359.png" height="600px" alt="screeshot-debug" />
+<img src="Pasted_image_20231022011359.png" height="500px" alt="screeshot-debug" />
 
 ## Experiments
 
