@@ -13,7 +13,6 @@ const {
 } = require("./utils");
 
 app.use(cors());
-app.use(express.urlencoded());
 app.use(cookieParser());
 
 const colorRed = "\x1b[31m"; // Red
@@ -33,7 +32,7 @@ app.use((req, res, next) => {
   console.log("request details", {
     url: req.url,
     host: req.headers.host,
-    referrer: req.headers.referer,
+    // referrer: req.headers.referer,
   });
   next();
 });
@@ -47,9 +46,10 @@ app.use("/images", (req, res, next) => {
   //   maxAge: 1e3 * 3600,
   //   path: "/images",
   // });
-  // res.cookie("image-cross", "valp", {
-  //   maxAge: 1e3 * 3600,
-  // });
+  res.cookie("image-cross", "valp", {
+    maxAge: 1e3 * 3600,
+    sameSite: "none",
+  });
   req.url = req.originalUrl;
   return express.static(path.join(__dirname, "public"))(req, res, next);
 });
@@ -86,9 +86,9 @@ app.get("/", (req, res, next) => {
         </head>
           <body>
             <h1>${
-              res.locals.reqIsThirdParty
-                ? `Cross (good) site (aka 3rd party) at ${port}`
-                : `Main (attacker) site (aka 1st party) at ${port}`
+              res.locals.fromMain
+                ? `Main site (aka 1st party) at  ${port}`
+                : `Cross site (aka 3rd party) at ${port}`
             }</h1>
             <p>Hello world</p>
             <p>local: ${new Date().toLocaleTimeString()}</p>
@@ -100,21 +100,13 @@ app.get("/", (req, res, next) => {
             <pre>Cookies later <code id="post-cookies">can't say</code></pre>
 
             <h3>Testing domain</h3>
-            ${timerUI({
-              time: 4 * 1e3,
-              afterRunCode: `
-                console.log(document.cookie);
-                document.body.innerHTML += document.cookie;
-                document.querySelector("#post-cookies").innerHTML = document.cookie || "nothing";
-              `,
-            })}
 
-            ${formUI({
-              method: "GET",
+            ${subRequestContent({
+              callThirdParty: !res.locals.reqIsThirdParty,
               src: `http://${
                 true ? "cross" : "cross"
                 // true ? "www.wdiff" : "www.wdiff"
-              }.com`,
+              }.com/images/sample-product-orig.jpg`,
             })}
 
             <a  href="http://${
