@@ -49,6 +49,7 @@ app.use("/images", (req, res, next) => {
   res.cookie("image-cross", "valp", {
     maxAge: 1e3 * 3600,
     sameSite: "none",
+    secure: true,
   });
   req.url = req.originalUrl;
   return express.static(path.join(__dirname, "public"))(req, res, next);
@@ -125,7 +126,22 @@ app.use((err, req, res, next) => {
 });
 
 // Start the server
-const port = process.env.PORT || 80;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// const port = process.env.PORT || 80;
+// app.listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
+// });
+
+// https
+const port = process.env.PORT || 443;
+const https = require("https");
+const fs = require("fs");
+const httpsOptions = {
+  key: fs.readFileSync("server.key"),
+  cert: fs.readFileSync("server.cert"),
+};
+
+const httpsServer = https.createServer(httpsOptions, app);
+
+httpsServer.listen(port, () => {
+  console.log(`HTTPS server is running on port ${port}`);
 });
